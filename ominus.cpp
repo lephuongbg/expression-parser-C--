@@ -82,6 +82,8 @@ big_num big_num::operator-(big_num op2)
 		}
 		index1--;
 	}
-
+	//Remove redundant zero digits at the left side
+	while (temp.number.at(0) == '0' && temp.number.length() > 1)
+		temp.number.erase(0,1);
 	return temp;
 }

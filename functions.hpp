@@ -11,6 +11,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <cstdlib>
 
 using namespace std;
 
@@ -48,6 +49,17 @@ public:
 #define OSTREAM_OP
 ostream &operator<<(ostream &out, const big_num& op);
 #endif /*OSTREAM_OP*/
+
+//LEXICAL ANALYSE
+enum TYPE {no, op};
+class lex_sequence {
+public:
+	big_num number;
+	char math_op;
+	TYPE element;
+};
+ostream &operator<<(ostream &stream, const lex_sequence op);
+vector<lex_sequence> lex_analyse(const string& str);
 
 //MISC
 int abs_compare(big_num n1, big_num n2);

@@ -18,6 +18,12 @@ big_num big_num::operator/(big_num op2)
 {
 	big_num result;
 
+	//Divide by zero error
+	if (op2.number == "0")
+	{
+		std::cerr << "Divide by zero";
+		exit(8);
+	}
 	/*Calculate the number of digits for the integer part*/
 	int res_digits = 0;
 	{

@@ -52,4 +52,3 @@ int s2n (const string& str)
 	convert >> n;
 	return n;
 }
-

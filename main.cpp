@@ -24,7 +24,8 @@ int main()
 	std::cout << ((double)clock() - start)/CLOCKS_PER_SEC << endl;
 	std::cout << b;
 #endif
-	big_num a = "2882893987";
-	big_num b = "10928";
-	cout << a/b;
+	string a = "-2882893 + 20 / 34 - 27 + -(-100 * -20)+";
+	vector<lex_sequence> lexed = lex_analyse(a);
+	for (unsigned int i = 0; i < lexed.size(); i++)
+		cout << lexed.at(i)<< " "<<flush;
 }
