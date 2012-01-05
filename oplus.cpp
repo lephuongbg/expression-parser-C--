@@ -28,9 +28,9 @@ big_num big_num::operator+(big_num op2)
 		break;
 	case -1:					//=>Different:
 		if (sign == -1)			//Change the sum operation to substraction operation
-			return (op2 - *this);
+			return (op2 - *this*(-1));
 		else
-			return (*this - op2);
+			return (*this - op2*(-1));
 		break;
 	default:
 		break;
@@ -66,4 +66,10 @@ big_num big_num::operator+(big_num op2)
 		temp.number.insert(0,1,D2C(carry));
 
 	return temp;
+}
+
+big_num big_num::operator+(int op2)
+{
+	big_num temp(op2);
+	return (*this + temp);
 }

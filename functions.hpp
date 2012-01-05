@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <vector>
 
 using namespace std;
 
@@ -29,17 +30,28 @@ public:
 
 	//Retrieve value from an integer
 	void set(int n);
+	void reset();
 
 	//Overloading operators
+	big_num operator=(big_num op2);
 	big_num operator+(big_num op2);
+	big_num operator+(int op2);
 	big_num operator-(big_num op2);
 	big_num operator*(big_num op2);
+	big_num operator*(int op2);
 	big_num operator/(big_num op2);
+
+	//Destructor
+	~big_num();
 };
 #ifndef OSTREAM_OP
 #define OSTREAM_OP
 ostream &operator<<(ostream &out, const big_num& op);
-
 #endif /*OSTREAM_OP*/
+
+//MISC
+int abs_compare(big_num n1, big_num n2);
+int s2n (const string& str);
+
 
 #endif /* FUNCTIONS_HPP_ */

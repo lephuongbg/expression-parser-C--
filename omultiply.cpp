@@ -41,3 +41,9 @@ big_num big_num::operator*(big_num op2)
 	}
 	return result;
 }
+
+big_num big_num::operator*(int op2)
+{
+	big_num temp(op2);
+	return (*this * temp);
+}

@@ -18,10 +18,17 @@ big_num::big_num() {
 	number = "";
 };
 big_num::big_num(int n) {
-	sign = (n >= 0) ? 1 : -1;
 	std::stringstream convert;
 	convert << n;
 	number =  convert.str();
+	sign = 1;
+	if (n < 0)
+	{
+		number.erase(0,1);
+		sign = -1;
+	}
+
+
 }
 big_num::big_num(string &str) {
 	if (str.at(0) == '-')
@@ -46,6 +53,7 @@ big_num::big_num(const char* c_str)
 	}
 }
 
+
 /****************************************
  * 										*
  *  MEMBER FUNCTION FOR BIG_NUM CLASS	*
@@ -56,4 +64,14 @@ void big_num::set(int n) {
 	std::stringstream convert;
 	convert << n;
 	number =  convert.str();
+}
+void big_num::reset() {
+	number = "";
+	sign = 1;
+}
+big_num big_num::operator=(big_num op2)
+{
+	number = op2.number;
+	sign = op2.sign;
+	return *this;
 }
