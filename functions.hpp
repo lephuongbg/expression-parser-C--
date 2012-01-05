@@ -12,6 +12,7 @@
 #include <sstream>
 #include <vector>
 #include <cstdlib>
+#include <stack>
 
 using namespace std;
 
@@ -60,10 +61,12 @@ public:
 };
 ostream &operator<<(ostream &stream, const lex_sequence op);
 vector<lex_sequence> lex_analyse(const string& str);
+big_num evaluate(const string &str);
 
 //MISC
 int abs_compare(big_num n1, big_num n2);
 int s2n (const string& str);
-
+int prior (char op1, char op2);
+void do_math(char op, stack<big_num>& number);
 
 #endif /* FUNCTIONS_HPP_ */

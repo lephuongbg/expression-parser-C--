@@ -52,3 +52,59 @@ int s2n (const string& str)
 	convert >> n;
 	return n;
 }
+
+/********************************************************
+ * 														*
+ * FUNCTION: prior() - 	Compare priority between		*
+ * 						two operator					*
+ * 														*
+ ********************************************************/
+int prior(char op1, char op2)
+{
+	switch (op1) {
+	case '+':
+	case '-':
+		if (op2 == '+' || op2 == '-')
+			return 1;
+		else
+			return 0;
+	case '*':
+	case '/':
+		if (op2 == '(')
+			return 0;
+		else
+			return 1;
+	default:
+		break;
+	}
+	return 0;
+}
+
+void do_math(char op, stack<big_num>& number)
+{
+	big_num  n1, n2;
+	switch(op) {
+	case '+':
+		n1 = number.top();number.pop();
+		n2 = number.top();number.pop();
+		number.push(n2+n1);
+		break;
+	case '-':
+		n1 = number.top();number.pop();
+		n2 = number.top();number.pop();
+		number.push(n2-n1);
+		break;
+	case '*':
+		n1 = number.top();number.pop();
+		n2 = number.top();number.pop();
+		number.push(n2*n1);
+		break;
+	case '/':
+		n1 = number.top();number.pop();
+		n2 = number.top();number.pop();
+		number.push(n2/n1);
+		break;
+	default:
+		break;
+	}
+}

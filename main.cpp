@@ -24,8 +24,17 @@ int main()
 	std::cout << ((double)clock() - start)/CLOCKS_PER_SEC << endl;
 	std::cout << b;
 #endif
-	string a = "-2882893 + 20 / 34 - 27 + -(-100 * -20)+";
+	//string a = "3 + 5 - 2 * 5 *(3 + 4)";
+
+	string a;
+	cout << "Type a mathematical expression: ";
+	getline(cin, a);
+
+	cout << "Standardized expression: ";
 	vector<lex_sequence> lexed = lex_analyse(a);
 	for (unsigned int i = 0; i < lexed.size(); i++)
 		cout << lexed.at(i)<< " "<<flush;
+
+	big_num b = evaluate(a);
+	cout << endl << "Result: " << b;
 }

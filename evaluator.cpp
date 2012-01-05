@@ -15,6 +15,16 @@ ostream &operator<<(ostream &stream, const lex_sequence op) {
 	return stream;
 }
 
+/********************************************************
+ * FUNCTION: lex_analyse()								*
+ * USE TO: 												*
+ * 		- break the input string into token				*
+ * 		- standardize the expression and check for it	*
+ * 		validity before evaluating						*
+ * PARAMETER: a string of math expression				*
+ * RETURN: 	an array of tokens, each token represents	*
+ * 			an operator or a number						*
+ ********************************************************/
 vector<lex_sequence> lex_analyse(const string& str)
 {
 	vector<lex_sequence> lexed;
@@ -98,6 +108,70 @@ vector<lex_sequence> lex_analyse(const string& str)
 
 	return result;
 }
+/********************************************************
+ * FUNCTION: evaluate()									*
+ * USE TO: 	evaluate an mathematical expression and		*
+ * 			return the result							*
+ * PARAMETER: a mathematical expression in string form	*
+ * RETURN: the math result								*
+ ********************************************************/
+big_num evaluate(const string &str)
+{
+	big_num result;
+	vector<lex_sequence> lx = lex_analyse(str);
+	stack<big_num> no_stack;
+	stack<char> op_stack;
+	unsigned int i = 0;
+	while (i < lx.size())
+	{
+		switch (lx.at(i).element) {
+		case op:
+			switch (lx.at(i).math_op) {
+			case '(':
+				op_stack.push('(');
+				i++;
+				break;
+			case '+':
+			case '-':
+			case '*':
+			case '/':
+				while (op_stack.size() > 0 && prior(op_stack.top(),lx.at(i).math_op)) {
+					do_math(op_stack.top(),no_stack);
+					op_stack.pop();
+				}
+				op_stack.push(lx.at(i).math_op);
+				i++;
+				break;
+			case ')':
+				while (op_stack.top() != '(') {
+					do_math(op_stack.top(), no_stack);
+					op_stack.pop();
+				}
+				op_stack.pop();
+				i++;
+				break;
+			default:
+				break;
+			};
+			break;
+		case no:
+			no_stack.push(lx.at(i).number);
+			i++;
+			break;
+		default:
+			i++;
+			break;
+		}
+	}
+	while (op_stack.size() != 0) {
+		do_math(op_stack.top(), no_stack);
+		op_stack.pop();
+	}
+	result = no_stack.top();
+	no_stack.pop();
+	return result;
+}
+
 
 /****************************************************
  * FUNCTION: lex_check() - Check the validity of	*
