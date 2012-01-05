@@ -118,19 +118,28 @@ vector<lex_sequence> lex_analyse(const string& str)
 big_num evaluate(const string &str)
 {
 	big_num result;
-	vector<lex_sequence> lx = lex_analyse(str);
-	stack<big_num> no_stack;
-	stack<char> op_stack;
+	vector<lex_sequence> lx = lex_analyse(str);	//Break string into tokens, check and standardize them
+	stack<big_num> no_stack;		//Number stack
+	stack<char> op_stack;			//Operator stack
 	unsigned int i = 0;
+
 	while (i < lx.size())
 	{
+		//Read a token
 		switch (lx.at(i).element) {
 		case op:
 			switch (lx.at(i).math_op) {
+			//If it's a left parentheses, push it into op_stack
 			case '(':
 				op_stack.push('(');
 				i++;
 				break;
+
+			// If it's an operator, compare its priority with the op_stack's top operator's priority
+			// =>if smaller or equal, pop that top operator out and do the math with two top numbers
+			// in the number stack, then push back the result into the stack.
+			// =>do the operation until op_stack is empty or encouter smaller priority operator, then push
+			// this operator into op_stack.
 			case '+':
 			case '-':
 			case '*':
@@ -142,6 +151,8 @@ big_num evaluate(const string &str)
 				op_stack.push(lx.at(i).math_op);
 				i++;
 				break;
+			// If it's an right parentheses, pop out all operators in operator stack until encounter
+			// a left parentheses.
 			case ')':
 				while (op_stack.top() != '(') {
 					do_math(op_stack.top(), no_stack);
@@ -154,6 +165,7 @@ big_num evaluate(const string &str)
 				break;
 			};
 			break;
+		// If it's a number, push it into the number stack
 		case no:
 			no_stack.push(lx.at(i).number);
 			i++;
@@ -163,10 +175,14 @@ big_num evaluate(const string &str)
 			break;
 		}
 	}
+
+	//When there's no token left, pop out all operators from the op_stack
 	while (op_stack.size() != 0) {
 		do_math(op_stack.top(), no_stack);
 		op_stack.pop();
 	}
+
+	//The result is the only number left in number stack
 	result = no_stack.top();
 	no_stack.pop();
 	return result;
